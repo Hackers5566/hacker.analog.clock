@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analog Clock</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #222;
+        }
+
+        .clock {
+            width: 300px;
+            height: 300px;
+            border: 9px solid aqua;
+            border-radius: 50%;
+            position: absolute;
+            background-color: rgba(255,255,255,0.1);
+            border:2px solid rgba(255,255,255,0.25);
+            box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.9);
+            display: flex;
+
+        }
+
+        .hour, .minute, .second {
+            position: absolute;
+            width: 50%;
+            height: 5%;
+            top: 50%;
+            transform-origin: 100%;
+            transform: translateY(-50%);
+            transition: transform 0.5s cubic-bezier(0.4, 2.1, 0.28, 0.98);
+        }
+
+        .hour {
+            background-color: greenyellow;
+            transform: rotate(90deg);
+            width: 50%;
+            height: 4%;
+
+        }
+
+        .minute {
+            background-color: blue;
+            transform: rotate(180deg);
+            height: 2%;
+            
+        }
+
+        .second {
+            background-color: #f00;
+            height: 1%;
+        }
+        .clock span {
+            position: absolute;
+            transform: rotate(calc(30deg*var(--i)));
+            inset:12px;
+            text-align: center;
+            color: black;
+
+        }
+        .clock span b{
+            transform: rotate(calc(-30deg*var(--i)));
+            display: inline-block;
+            font-size: 20px;
+
+        }
+        .clock::before{
+            content:'';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            z-index: 2;
+
+        }
+        .hand{
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items:flex-end;
+
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+    <div class="clock">
+        <div class="hour" id="hour"></div>
+        <div class="minute" id="minute"></div>
+        <div class="second" id="second"></div>
+<span style="--i: 1"><b>1</b></span>
+<span style="--i: 2"><b>2</b></span>
+<span style="--i: 3"><b>3</b></span>
+<span style="--i: 4"><b>4</b></span>
+<span style="--i: 5"><b>5</b></span>
+<span style="--i: 6"><b>6</b></span>
+<span style="--i: 7"><b>7</b></span>
+<span style="--i: 8"><b>8</b></span>
+<span style="--i: 9"><b>9</b></span>
+<span style="--i: 10"><b>10</b></span>
+<span style="--i: 11"><b>11</b></span>
+<span style="--i: 12"><b>12</b></span>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+            const hour = now.getHours() % 12;
+            const minute = now.getMinutes();
+            const second = now.getSeconds();
+
+            const hourDegree = (360 / 12) * (hour + minute / 60);
+            const minuteDegree = (360 / 60) * (minute + second / 60);
+            const secondDegree = (360 / 60) * second;
+
+            const hourHand = document.getElementById("hour");
+            const minuteHand = document.getElementById("minute");
+            const secondHand = document.getElementById("second");
+
+            hourHand.style.transform = `rotate(${90 + hourDegree}deg)`;
+            minuteHand.style.transform = `rotate(${180 + minuteDegree}deg)`;
+            secondHand.style.transform = `rotate(${180 + secondDegree}deg)`;
+
+        }
+
+        // Update the clock every second
+        setInterval(updateClock, 1000);
+
+        // Initial call to set the clock immediately
+        updateClock();
+    </script>
+</body>
+</html>
